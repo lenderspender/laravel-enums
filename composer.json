@@ -1,0 +1,36 @@
+{
+    "name": "lenderspender/laravel-enums",
+    "description": "Add enums to Laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bert van Hoekelen",
+            "email": "bert@magwel.nl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LenderSpender\\LaravelEnums\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LenderSpender\\LaravelEnums\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "php": "^7.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "orchestra/testbench": "^3.7"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LenderSpender\\LaravelEnums\\LaravelEnumsServiceProvider"
+            ]
+        }
+    }
+}
