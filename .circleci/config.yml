@@ -27,7 +27,7 @@ jobs:
           paths:
             - ./vendor
 
-      - run: vendor/bin/phpunit --log-junit ~/phpunit/unit-acceptance.xml --testsuite "Tests"
+      - run: vendor/bin/phpunit --log-junit ~/phpunit/test.xml --testsuite "Tests"
 
       - store_test_results:
           path: ~/phpunit
