@@ -262,7 +262,7 @@ abstract class Enum
      */
     public static function valuesToString(): string
     {
-        return implode(self::toArray(), ',');
+        return implode(',', self::toArray());
     }
 
     /**
