@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace LenderSpender\LaravelEnums;
 
+use Barryvdh\Reflection\DocBlock\Context;
+use Barryvdh\Reflection\DocBlock\Serializer as DocBlockSerializer;
+use Barryvdh\Reflection\DocBlock\Tag;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -52,7 +55,7 @@ class EnumerateModelDocBlock
         });
     }
 
-    private function createNewContents(ReflectionClass $reflectionClass, string $contents, string $docBlocks): string
+    private function createNewContents(ReflectionClass $reflectionClass, string $contents, DocBlock $docBlock): string
     {
         $docComment = $reflectionClass->getDocComment();
 
@@ -60,10 +63,14 @@ class EnumerateModelDocBlock
             $contents = str_replace(PHP_EOL . $docComment, '', $contents);
         }
 
-        return Str::replaceFirst('class', $docBlocks . PHP_EOL . 'class', $contents);
+        return Str::replaceFirst(
+            'class',
+            (new DocBlockSerializer())->getDocComment($docBlock) . PHP_EOL . 'class',
+            $contents
+        );
     }
 
-    private function generateDocBlocks(ReflectionClass $reflectionClass): ?string
+    private function generateDocBlocks(ReflectionClass $reflectionClass): ?DocBlock
     {
         if (! $reflectionClass->hasProperty('enums')) {
             return null;
@@ -75,12 +82,21 @@ class EnumerateModelDocBlock
         $class = $reflectionClass->newInstanceWithoutConstructor();
         $enums = $enumProperty->getValue($class);
 
-        $properties = [];
 
-        foreach ($enums as $attribute => $value) {
-            $properties[] = ' * @property string|\\' . $value . '|null $' . $attribute;
+        $phpdoc = new DocBlock($reflectionClass, new Context($reflectionClass->getNamespaceName()));
+
+        foreach($phpdoc->getTagsByName('property') as $tag) {
+            if (strpos($tag->getContent(), 'Enum') !== false) {
+                $phpdoc->deleteTag($tag);
+            }
         }
 
-        return '/**' . PHP_EOL . implode(PHP_EOL, $properties) . PHP_EOL . ' */';
+        foreach ($enums as $attribute => $value) {
+            $tagLine = trim("@property string|{$value}|null \${$attribute}");
+            $tag = Tag::createInstance($tagLine, $phpdoc);
+            $phpdoc->prependTag($tag);
+        }
+
+        return $phpdoc;
     }
 }

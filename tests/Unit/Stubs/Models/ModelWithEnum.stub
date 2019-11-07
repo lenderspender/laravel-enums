@@ -9,7 +9,10 @@ use LenderSpender\LaravelEnums\Models\Traits\CastsEnums;
 use LenderSpender\LaravelEnums\Tests\Unit\Stubs\Enums\FakeEnum;
 
 /**
- * @property null|string|\LenderSpender\LaravelEnums\Tests\Unit\Stubs\Enums\FakeEnum $foo
+ * App\Models\ModelWithEnum.
+ *
+ * @property string|LenderSpender\LaravelEnums\Tests\Unit\Stubs\Enums\FakeEnum|null $foo
+ * @property string $test
  */
 class ModelWithEnum extends Model
 {

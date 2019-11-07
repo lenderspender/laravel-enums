@@ -26,6 +26,6 @@ class EnumerateModelDocBlockTest extends TestCase
         $content = file_get_contents(__DIR__ . '/Stubs/Models/ModelWithEnum.php');
 
         copy(__DIR__ . '/Stubs/Models/ModelWithEnum.org.stub', __DIR__ . '/Stubs/Models/ModelWithEnum.php');
-        self::assertSame($content, file_get_contents(__DIR__ . '/Stubs/Models/ModelWithEnum.stub'));
+        self::assertSame(file_get_contents(__DIR__ . '/Stubs/Models/ModelWithEnum.stub'), $content);
     }
 }

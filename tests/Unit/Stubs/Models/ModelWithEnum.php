@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use LenderSpender\LaravelEnums\Models\Traits\CastsEnums;
 use LenderSpender\LaravelEnums\Tests\Unit\Stubs\Enums\FakeEnum;
 
+/**
+ * App\Models\ModelWithEnum.
+ *
+ * @property string $test
+ * @property string|\App\Enums\Bar|null $bar
+ */
 class ModelWithEnum extends Model
 {
     use CastsEnums;
