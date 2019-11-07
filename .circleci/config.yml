@@ -6,7 +6,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: huubvdw/docker-nginx-php7:php7.3
+      - image: lenderspender/php-fpm:7.3
 
     steps:
       - checkout
