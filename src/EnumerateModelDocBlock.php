@@ -92,7 +92,7 @@ class EnumerateModelDocBlock
         }
 
         foreach ($enums as $attribute => $value) {
-            $tagLine = trim("@property string|{$value}|null \${$attribute}");
+            $tagLine = trim("@property string|\\{$value}|null \${$attribute}");
             $tag = Tag::createInstance($tagLine, $phpdoc);
             $phpdoc->prependTag($tag);
         }

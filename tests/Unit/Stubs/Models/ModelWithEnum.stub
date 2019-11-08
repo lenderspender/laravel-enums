@@ -11,7 +11,7 @@ use LenderSpender\LaravelEnums\Tests\Unit\Stubs\Enums\FakeEnum;
 /**
  * App\Models\ModelWithEnum.
  *
- * @property string|LenderSpender\LaravelEnums\Tests\Unit\Stubs\Enums\FakeEnum|null $foo
+ * @property string|\LenderSpender\LaravelEnums\Tests\Unit\Stubs\Enums\FakeEnum|null $foo
  * @property string $test
  */
 class ModelWithEnum extends Model
