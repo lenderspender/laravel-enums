@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware;
+namespace LenderSpender\LaravelEnums\Http\Middleware;
 
 use Closure;
 use Illuminate\Container\Container;
