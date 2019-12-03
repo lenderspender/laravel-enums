@@ -12,7 +12,7 @@ class LaravelEnumsServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        if ($this->app->environment('local', 'dev')) {
+        if (! $this->app->environment('production')) {
             $this->commands([
                 AddDocBlocksToEnums::class,
                 AddEnumDocBlockToModels::class,
