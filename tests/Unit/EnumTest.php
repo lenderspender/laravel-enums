@@ -297,4 +297,14 @@ class EnumTest extends TestCase
         self::assertSame('', $nullableEnum->value());
         self::assertTrue($nullableEnum::UNKNOWN()->equals($nullableEnum));
     }
+
+    public function test_can_have_custom_unknown_if_interface_is_not_implemented(): void
+    {
+        $nullableEnum = new class('foo') extends Enum {
+            private const UNKNOWN = 'foo';
+        };
+
+        self::assertTrue($nullableEnum::UNKNOWN()->equals($nullableEnum));
+        self::assertSame('foo', $nullableEnum->value());
+    }
 }

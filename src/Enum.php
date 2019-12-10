@@ -243,7 +243,7 @@ abstract class Enum
             $reflection = new ReflectionClass($class);
             $constants = $reflection->getConstants();
 
-            if (class_implements($class, CanBeUnknown::class)) {
+            if (self::canBeUnknown()) {
                 $constants['UNKNOWN'] = null;
             }
 
@@ -272,7 +272,7 @@ abstract class Enum
      */
     public static function isValidValue($value): bool
     {
-        if (class_implements(get_called_class(), CanBeUnknown::class) && ($value === null || $value === '')) {
+        if (self::canBeUnknown() && ($value === null || $value === '')) {
             return true;
         }
 
@@ -362,10 +362,17 @@ abstract class Enum
 
     private function valuesAreEqual(Enum $enum = null): bool
     {
-        if ($enum instanceof CanBeUnknown) {
+        if ($enum::canBeUnknown()) {
             return $this->value() == $enum->value();
         }
 
         return $this->value() === $enum->value();
+    }
+
+    public static function canBeUnknown(): bool
+    {
+        $class = get_called_class();
+
+        return in_array(CanBeUnknown::class, class_implements($class));
     }
 }
