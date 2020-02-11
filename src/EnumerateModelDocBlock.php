@@ -81,7 +81,7 @@ class EnumerateModelDocBlock
 
         $class = $reflectionClass->newInstanceWithoutConstructor();
         $enums = $enumProperty->getValue($class);
-
+        ksort($enums);
 
         $phpdoc = new DocBlock($reflectionClass, new Context($reflectionClass->getNamespaceName()));
 
@@ -91,8 +91,12 @@ class EnumerateModelDocBlock
             }
         }
 
-        foreach ($enums as $attribute => $value) {
-            $tagLine = trim("@property string|\\{$value}|null \${$attribute}");
+        foreach ($enums as $attribute => $class) {
+            $tagLine = trim("@property \\{$class} \${$attribute}");
+
+            if (in_array(CanBeUnknown::class, class_implements($class), true)) {
+                $tagLine = trim("@property \\{$class}|null \${$attribute}");
+            }
             $tag = Tag::createInstance($tagLine, $phpdoc);
             $phpdoc->prependTag($tag);
         }

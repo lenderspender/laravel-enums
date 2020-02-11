@@ -7,6 +7,7 @@ namespace LenderSpender\LaravelEnums\Tests\Unit\Stubs\Models;
 use Illuminate\Database\Eloquent\Model;
 use LenderSpender\LaravelEnums\Models\Traits\CastsEnums;
 use LenderSpender\LaravelEnums\Tests\Unit\Stubs\Enums\FakeEnum;
+use LenderSpender\LaravelEnums\Tests\Unit\Stubs\Enums\FakeUnknownEnum;
 
 /**
  * App\Models\ModelWithEnum.
@@ -20,5 +21,6 @@ class ModelWithEnum extends Model
 
     protected $enums = [
         'foo' => FakeEnum::class,
+        'baz' => FakeUnknownEnum::class,
     ];
 }
