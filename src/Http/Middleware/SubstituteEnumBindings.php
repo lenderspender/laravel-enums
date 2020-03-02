@@ -11,11 +11,8 @@ use LenderSpender\LaravelEnums\Routing\ImplicitEnumRouteBinding;
 
 class SubstituteEnumBindings
 {
-    /** @var \Illuminate\Contracts\Routing\Registrar */
-    private $router;
-
-    /** @var \Illuminate\Container\Container */
-    private $container;
+    private Registrar $router;
+    private Container $container;
 
     public function __construct(Registrar $router, Container $container)
     {
