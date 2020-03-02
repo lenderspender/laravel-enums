@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LenderSpender\LaravelEnums\src\Commands;
+namespace LenderSpender\LaravelEnums\Commands;
 
 use Barryvdh\Reflection\DocBlock\Context;
 use Barryvdh\Reflection\DocBlock\Serializer as DocBlockSerializer;
@@ -44,8 +44,6 @@ class AddEnumDocBlockToModels extends Command
 
         $this->info("Added enum information to {$models->count()} models");
     }
-
-
 
     public function enumerate(string $className, string $filePath): bool
     {
@@ -100,7 +98,7 @@ class AddEnumDocBlockToModels extends Command
 
         $phpdoc = new DocBlock($reflectionClass, new Context($reflectionClass->getNamespaceName()));
 
-        foreach($phpdoc->getTagsByName('property') as $tag) {
+        foreach ($phpdoc->getTagsByName('property') as $tag) {
             if (strpos($tag->getContent(), 'Enum') !== false) {
                 $phpdoc->deleteTag($tag);
             }

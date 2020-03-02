@@ -56,7 +56,7 @@ class AddDocBlocksToEnums extends Command
                 return null;
             })
             ->filter();
-        
+
         $this->info("Parsed {$enums->count()} enums");
     }
 

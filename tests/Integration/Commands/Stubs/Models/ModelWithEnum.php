@@ -10,7 +10,7 @@ use LenderSpender\LaravelEnums\Models\Traits\CastsEnums;
 /**
  * App\Models\ModelWithEnum.
  *
- * @property string $test
+ * @property string                     $test
  * @property string|\App\Enums\Bar|null $bar
  */
 class ModelWithEnum extends Model

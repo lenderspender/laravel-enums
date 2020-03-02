@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 return [
     'enum_locations' => [
-        'app/Enums'
+        'app/Enums',
     ],
     'model_locations' => [
-        'app/Models'
+        'app/Models',
     ],
 ];

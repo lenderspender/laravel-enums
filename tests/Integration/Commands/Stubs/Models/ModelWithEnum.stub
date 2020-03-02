@@ -12,7 +12,7 @@ use LenderSpender\LaravelEnums\Models\Traits\CastsEnums;
  *
  * @property \LenderSpender\LaravelEnums\Tests\Integration\Commands\Stubs\Models\FakeEnum $foo
  * @property \LenderSpender\LaravelEnums\Tests\Integration\Commands\Stubs\Models\FakeUnknownEnum|null $baz
- * @property string $test
+ * @property string                     $test
  */
 class ModelWithEnum extends Model
 {

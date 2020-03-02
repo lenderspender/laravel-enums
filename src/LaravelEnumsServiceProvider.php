@@ -6,7 +6,7 @@ namespace LenderSpender\LaravelEnums;
 
 use Illuminate\Support\ServiceProvider;
 use LenderSpender\LaravelEnums\Commands\AddDocBlocksToEnums;
-use LenderSpender\LaravelEnums\src\Commands\AddEnumDocBlockToModels;
+use LenderSpender\LaravelEnums\Commands\AddEnumDocBlockToModels;
 
 class LaravelEnumsServiceProvider extends ServiceProvider
 {
