@@ -4,57 +4,58 @@ declare(strict_types=1);
 
 namespace LenderSpender\LaravelEnums\Commands;
 
+use Composer\Autoload\ClassMapGenerator;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use LenderSpender\LaravelEnums\CanBeUnknown;
+use LenderSpender\LaravelEnums\Enum;
 use ReflectionClass;
 
 class AddDocBlocksToEnums extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'ide-helper:generate:enums';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Generate DocBlocks for Enums';
 
-    /** @var \Illuminate\Contracts\Filesystem\Filesystem */
-    private $filesystem;
+    private array $enumLocations;
 
-    public function __construct(FilesystemManager $filesystemManager)
+    private Filesystem $filesystem;
+
+    public function __construct(Filesystem $filesystem)
     {
         parent::__construct();
 
-        $this->filesystem = $filesystemManager->createLocalDriver(['root' => app_path('Enums')]);
+        $this->enumLocations = config('laravel-enums.enum_locations', []);
+        $this->filesystem = $filesystem;
     }
 
     public function handle(): void
     {
-        $enums = collect($this->filesystem->files())
-            ->filter(function ($filename) {
-                return $filename != 'Enum.php' && ! Str::startsWith($filename, '.');
-            });
+        $enums = collect($this->enumLocations)
+            ->mapWithKeys(fn ($location) => ClassMapGenerator::createMap(base_path() . $location))
+            ->map(function (string $filePath, string $className) {
+                $reflection = new ReflectionClass($className);
 
-        $enums->each(function ($filename) {
-            $reflection = new ReflectionClass('App\\Enums\\' . str_replace('.php', '', $filename));
-            $contents = $this->filesystem->get($filename);
-            $docBlocks = $this->generateDocBlocks($reflection);
+                if (! $reflection->isSubclassOf(Enum::class)) {
+                    return null;
+                }
 
-            if ($docBlocks) {
-                $this->filesystem->put(
-                    $filename,
-                    $this->createNewContents($reflection, $contents, $docBlocks)
-                );
-            }
-        });
+                $contents = $this->filesystem->get($filePath);
+                $docBlocks = $this->generateDocBlocks($reflection);
+
+                if ($docBlocks) {
+                    $this->filesystem->put(
+                        $filePath,
+                        $this->createNewContents($reflection, $contents, $docBlocks)
+                    );
+
+                    return true;
+                }
+
+                return null;
+            })
+            ->filter();
 
         $this->info("Parsed {$enums->count()} enums");
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LenderSpender\LaravelEnums;
 
 use Illuminate\Support\Arr;
@@ -21,13 +23,6 @@ use ReflectionClass;
 abstract class Enum
 {
     /**
-     * Enum value.
-     *
-     * @var mixed
-     */
-    protected $value;
-
-    /**
      * Store existing constants in a static cache per object.
      *
      * @var array
@@ -35,6 +30,12 @@ abstract class Enum
     protected static $cache = [];
 
     protected static $fakeValues = [];
+    /**
+     * Enum value.
+     *
+     * @var mixed
+     */
+    protected $value;
 
     /**
      * Creates a new value of some type.
@@ -58,36 +59,8 @@ abstract class Enum
         $this->value = $value;
     }
 
-    public function __toString(): string
-    {
-        return (string) $this->value();
-    }
-
-    /**
-     * Returns a value when called statically like so: MyEnum::SOME_VALUE() given SOME_VALUE is a class constant.
-     *
-     * @param string $name
-     * @param array  $arguments
-     *
-     * @throws \BadMethodCallException
-     *
-     * @return static
-     */
-    public static function __callStatic($name, $arguments)
-    {
-        $array = static::toArray();
-
-        if (self::isValidKey($name)) {
-            return new static($array[$name]);
-        }
-
-        throw new \BadMethodCallException("No static method or enum constant '${name}' in class " . get_called_class());
-    }
-
     /**
      * @param array|Enum|null $exceptions
-     *
-     * @return In
      */
     public static function ruleIn($exceptions = null): In
     {
@@ -104,64 +77,6 @@ abstract class Enum
         }
 
         return new In(Arr::except($values, $keys ?? []));
-    }
-
-    /**
-     * Compares one Enum with another.
-     *
-     * This method is final, for more information read https://github.com/myclabs/php-enum/issues/4
-     *
-     * @return bool True if Enums are equal, false if not equal
-     */
-    final public function equals(Enum $enum = null): bool
-    {
-        return $enum !== null && $this->valuesAreEqual($enum) && \get_called_class() === \get_class($enum);
-    }
-
-    /**
-     * @deprecated use value() instead
-     *
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function value()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCamelValue()
-    {
-        return Str::camel($this->value);
-    }
-
-    /**
-     * Returns the enum key (i.e. the constant name).
-     *
-     * @return mixed
-     */
-    public function getKey()
-    {
-        return static::search($this->value);
-    }
-
-    /**
-     * Returns the localized label.
-     *
-     * @return mixed
-     */
-    public function getLabel()
-    {
-        return static::label($this->value);
     }
 
     /**
@@ -326,13 +241,6 @@ abstract class Enum
         return static::search($typeValue);
     }
 
-    public function description(): string
-    {
-        $langId = 'typelabels.' . get_called_class() . '.' . strtolower($this->value()) . '.description';
-
-        return Lang::has($langId) ? Lang::get($langId) : '';
-    }
-
     public static function testDataProvider(): array
     {
         return collect(static::values())
@@ -343,8 +251,6 @@ abstract class Enum
     }
 
     /**
-     * @param string $value
-     *
      * @return \Mockery\MockInterface|$this
      */
     public static function fake(string $value): MockInterface
@@ -360,6 +266,78 @@ abstract class Enum
         static::$fakeValues = [];
     }
 
+    public static function canBeUnknown(): bool
+    {
+        $class = get_called_class();
+
+        return in_array(CanBeUnknown::class, class_implements($class));
+    }
+
+    /**
+     * Compares one Enum with another.
+     *
+     * This method is final, for more information read https://github.com/myclabs/php-enum/issues/4
+     *
+     * @return bool True if Enums are equal, false if not equal
+     */
+    final public function equals(Enum $enum = null): bool
+    {
+        return $enum !== null && $this->valuesAreEqual($enum) && \get_called_class() === \get_class($enum);
+    }
+
+    /**
+     * @deprecated use value() instead
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function value()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCamelValue()
+    {
+        return Str::camel($this->value);
+    }
+
+    /**
+     * Returns the enum key (i.e. the constant name).
+     *
+     * @return mixed
+     */
+    public function getKey()
+    {
+        return static::search($this->value);
+    }
+
+    /**
+     * Returns the localized label.
+     *
+     * @return mixed
+     */
+    public function getLabel()
+    {
+        return static::label($this->value);
+    }
+
+    public function description(): string
+    {
+        $langId = 'typelabels.' . get_called_class() . '.' . strtolower($this->value()) . '.description';
+
+        return Lang::has($langId) ? Lang::get($langId) : '';
+    }
+
     private function valuesAreEqual(Enum $enum = null): bool
     {
         if ($enum::canBeUnknown()) {
@@ -369,10 +347,29 @@ abstract class Enum
         return $this->value() === $enum->value();
     }
 
-    public static function canBeUnknown(): bool
+    public function __toString(): string
     {
-        $class = get_called_class();
+        return (string) $this->value();
+    }
 
-        return in_array(CanBeUnknown::class, class_implements($class));
+    /**
+     * Returns a value when called statically like so: MyEnum::SOME_VALUE() given SOME_VALUE is a class constant.
+     *
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @throws \BadMethodCallException
+     *
+     * @return static
+     */
+    public static function __callStatic($name, $arguments)
+    {
+        $array = static::toArray();
+
+        if (self::isValidKey($name)) {
+            return new static($array[$name]);
+        }
+
+        throw new \BadMethodCallException("No static method or enum constant '${name}' in class " . get_called_class());
     }
 }

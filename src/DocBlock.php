@@ -20,8 +20,6 @@ class DocBlock extends \Barryvdh\Reflection\DocBlock
             return $tag;
         }
 
-        throw new \LogicException(
-            'This tag belongs to a different DocBlock object.'
-        );
+        throw new \LogicException('This tag belongs to a different DocBlock object.');
     }
 }
