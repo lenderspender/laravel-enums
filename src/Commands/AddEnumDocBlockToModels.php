@@ -29,7 +29,7 @@ class AddEnumDocBlockToModels extends Command
     {
         parent::__construct();
 
-        $this->model_locations = config('laravel-enums.model_locations', []);
+        $this->modelLocations = config('laravel-enums.model_locations', []);
         $this->filesystem = $filesystem;
     }
 
