@@ -22,7 +22,7 @@ class AddEnumDocBlockToModels extends Command
 
     protected $description = 'Generate Enum DocBlocks for Models';
 
-    private array $model_locations;
+    private array $modelLocations;
     private Filesystem $filesystem;
 
     public function __construct(Filesystem $filesystem)
@@ -35,7 +35,7 @@ class AddEnumDocBlockToModels extends Command
 
     public function handle(): void
     {
-        $models = collect($this->model_locations)
+        $models = collect($this->modelLocations)
             ->mapWithKeys(fn ($location) => ClassMapGenerator::createMap(base_path() . $location))
             ->map(function (string $filePath, string $className) {
                 return $this->enumerate($className, $filePath);

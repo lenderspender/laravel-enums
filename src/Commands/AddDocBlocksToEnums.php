@@ -18,7 +18,7 @@ class AddDocBlocksToEnums extends Command
 
     protected $description = 'Generate DocBlocks for Enums';
 
-    private array $enum_locations;
+    private array $enumLocations;
 
     private Filesystem $filesystem;
 
@@ -26,13 +26,13 @@ class AddDocBlocksToEnums extends Command
     {
         parent::__construct();
 
-        $this->enum_locations = config('laravel-enums.enum_locations', []);
+        $this->enumLocations = config('laravel-enums.enum_locations', []);
         $this->filesystem = $filesystem;
     }
 
     public function handle(): void
     {
-        $enums = collect($this->enum_locations)
+        $enums = collect($this->enumLocations)
             ->mapWithKeys(fn ($location) => ClassMapGenerator::createMap(base_path() . $location))
             ->map(function (string $filePath, string $className) {
                 $reflection = new ReflectionClass($className);

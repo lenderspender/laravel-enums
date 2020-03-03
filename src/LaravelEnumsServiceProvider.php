@@ -23,7 +23,7 @@ class LaravelEnumsServiceProvider extends ServiceProvider
                 AddEnumDocBlockToModels::class,
             ]);
 
-            $this->mergeConfigFrom(__DIR__ . '/../config/laravel-enums.php', 'ide-helper');
+            $this->mergeConfigFrom(__DIR__ . '/../config/laravel-enums.php', 'laravel-enums');
         }
     }
 }
