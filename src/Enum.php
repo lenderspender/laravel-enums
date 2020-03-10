@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LenderSpender\LaravelEnums;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\In;
 use Lang;
@@ -93,6 +94,11 @@ abstract class Enum
         }
 
         return $values;
+    }
+
+    public static function collect(): Collection
+    {
+        return collect(self::values());
     }
 
     public static function selectValues(bool $emptyFirst = false, array $only = [], array $except = [], bool $showValue = false)
