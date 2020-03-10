@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\In;
-use Lang;
+use Illuminate\Support\Facades\Lang;
 use Mockery;
 use Mockery\MockInterface;
 use ReflectionClass;
@@ -74,7 +74,7 @@ abstract class Enum
         $exceptions = is_array($exceptions) ? $exceptions : [$exceptions];
 
         foreach ($exceptions as $exception) {
-            $keys[] = strtoupper($exception->value());
+            $keys[] = $exception->getKey();
         }
 
         return new In(Arr::except($values, $keys ?? []));
