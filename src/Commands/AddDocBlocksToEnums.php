@@ -33,7 +33,7 @@ class AddDocBlocksToEnums extends Command
     public function handle(): void
     {
         $enums = collect($this->enumLocations)
-            ->mapWithKeys(fn ($location) => ClassMapGenerator::createMap(base_path() . $location))
+            ->mapWithKeys(fn ($location) => ClassMapGenerator::createMap(base_path($location)))
             ->map(function (string $filePath, string $className) {
                 $reflection = new ReflectionClass($className);
 

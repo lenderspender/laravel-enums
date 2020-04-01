@@ -36,7 +36,7 @@ class AddEnumDocBlockToModels extends Command
     public function handle(): void
     {
         $models = collect($this->modelLocations)
-            ->mapWithKeys(fn ($location) => ClassMapGenerator::createMap(base_path() . $location))
+            ->mapWithKeys(fn ($location) => ClassMapGenerator::createMap(base_path($location)))
             ->map(function (string $filePath, string $className) {
                 return $this->enumerate($className, $filePath);
             })

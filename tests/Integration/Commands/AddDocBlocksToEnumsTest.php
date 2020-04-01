@@ -12,7 +12,7 @@ class AddDocBlocksToEnumsTest extends TestCase
     {
         config([
             'laravel-enums.enum_locations' => [
-                '/tests/Integration/Commands/Stubs/Enums/',
+                'tests/Integration/Commands/Stubs/Enums/',
             ],
         ]);
 
