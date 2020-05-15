@@ -6,9 +6,9 @@ namespace LenderSpender\LaravelEnums;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\In;
-use Illuminate\Support\Facades\Lang;
 use Mockery;
 use Mockery\MockInterface;
 use ReflectionClass;
