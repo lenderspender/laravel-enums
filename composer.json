@@ -20,16 +20,16 @@
         }
     },
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 | ^8.0",
         "barryvdh/reflection-docblock": "^2.0.6",
         "composer/composer": "^1.9|^2.0",
-        "illuminate/support": "^6.0|^7.0|^8.0",
-        "illuminate/translation": "^6.0|^7.0|^8.0",
-        "illuminate/validation": "^6.0|^7.0|^8.0"
+        "illuminate/support": "^7.0 | ^8.0",
+        "illuminate/translation": "^7.0 | ^8.0",
+        "illuminate/validation": "^7.0 | ^8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
-        "orchestra/testbench": "^3.7|^4.0|^5.0|^6.0",
+        "orchestra/testbench": "^5.0 | ^6.0",
         "lenderspender/php-cs-fixer-rules": "dev-master"
     },
     "extra": {

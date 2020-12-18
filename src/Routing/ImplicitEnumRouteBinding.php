@@ -24,7 +24,7 @@ class ImplicitEnumRouteBinding extends ImplicitRouteBinding
                 continue;
             }
 
-            $enumClass = $parameter->getClass()->name;
+            $enumClass = $parameter->getType()->getName();
 
             abort_unless($enumClass::isValidValue($parameterValue), 404, "'{$parameterValue}' is not a valid value for '{$enumClass}'");
 
