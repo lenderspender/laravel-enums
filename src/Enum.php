@@ -229,12 +229,7 @@ abstract class Enum
      */
     public static function label($typeValue): string
     {
-        $typeKey = self::search($typeValue);
-        if (! is_string($typeKey)) {
-            $typeKey = (string) $typeKey;
-        }
-
-        $langId = 'typelabels.' . get_called_class() . '.' . strtolower($typeKey);
+        $langId = 'typelabels.' . get_called_class() . '.' . strtolower((string) self::search($typeValue));
 
         if (Lang::has($langId)) {
             $translation = trans($langId);
