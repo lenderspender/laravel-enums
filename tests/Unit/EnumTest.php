@@ -305,6 +305,7 @@ class EnumTest extends TestCase
         };
 
         self::assertSame('', $nullableEnum->value());
+        self::assertSame('UNKNOWN', $nullableEnum->getLabel());
         self::assertTrue($nullableEnum::UNKNOWN()->equals($nullableEnum));
     }
 

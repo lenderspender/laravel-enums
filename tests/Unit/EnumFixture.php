@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LenderSpender\LaravelEnums\Tests\Unit;
 
 use LenderSpender\LaravelEnums\Enum;
