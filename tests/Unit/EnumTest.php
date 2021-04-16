@@ -240,7 +240,7 @@ class EnumTest extends TestCase
 
     public function test_select_values_with_empty_first_and_except_has_empty_and_specified_options(): void
     {
-        $list = EnumFixture::selectValues(true, [], [EnumFixture::BAR(), EnumFixture::PROBLEMATIC_NUMBER(), EnumFixture::PROBLEMATIC_NULL(), EnumFixture::PROBLEMATIC_EMPTY_STRING(). EnumFixture::PROBLEMATIC_BOOLEAN_FALSE()]);
+        $list = EnumFixture::selectValues(true, [], [EnumFixture::BAR(), EnumFixture::PROBLEMATIC_NUMBER(), EnumFixture::PROBLEMATIC_NULL(), EnumFixture::PROBLEMATIC_EMPTY_STRING() . EnumFixture::PROBLEMATIC_BOOLEAN_FALSE()]);
 
         self::assertCount(3, $list);
         self::assertEquals('Select an option', $list['']);

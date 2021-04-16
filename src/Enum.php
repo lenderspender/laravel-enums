@@ -31,14 +31,15 @@ abstract class Enum
     protected static $cache = [];
 
     protected static $fakeValues = [];
+
+    private static array $emptyOption = ['' => 'Select an option'];
+
     /**
      * Enum value.
      *
      * @var mixed
      */
     protected $value;
-
-    protected static array $emptyOption = ["" => "Select an option"];
 
     /**
      * Creates a new value of some type.
@@ -126,7 +127,9 @@ abstract class Enum
                 })
                 ->toArray();
 
-            return $emptyFirst ? self::$emptyOption + Arr::only($values, $onlyValues) : Arr::only($values, $onlyValues);
+            $only = Arr::only($values, $onlyValues);
+
+            return $emptyFirst ? self::$emptyOption + $only : $only;
         }
 
         if (count($except)) {
@@ -140,7 +143,9 @@ abstract class Enum
                 })
                 ->toArray();
 
-            return $emptyFirst ? self::$emptyOption + Arr::except($values, $exceptValues) : Arr::except($values, $exceptValues);
+            $except = Arr::except($values, $exceptValues);
+
+            return $emptyFirst ? self::$emptyOption + $except : $except;
         }
 
         return $values;
