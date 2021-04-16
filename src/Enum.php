@@ -109,8 +109,8 @@ abstract class Enum
             $values[$value] = $showValue ? '(' . $key . ') ' . self::label($value) : self::label($value);
         }
 
-        if ($emptyFirst && empty($value[""])) {
-            $values = ["" => "Select an option"] + $values;
+        if ($emptyFirst && empty($value[''])) {
+            $values = ['' => 'Select an option'] + $values;
         }
 
         if (count($only)) {

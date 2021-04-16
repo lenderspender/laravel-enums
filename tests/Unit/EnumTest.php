@@ -9,7 +9,6 @@ use Illuminate\Validation\Rules\In;
 use LenderSpender\LaravelEnums\CanBeUnknown;
 use LenderSpender\LaravelEnums\Enum;
 use Orchestra\Testbench\TestCase;
-use phpDocumentor\Reflection\Types\Self_;
 use UnexpectedValueException;
 
 class EnumTest extends TestCase
@@ -227,7 +226,7 @@ class EnumTest extends TestCase
     {
         $list = EnumFixture::selectValues(true);
 
-        self::assertEquals($list[""], "Select an option");
+        self::assertEquals($list[''], 'Select an option');
     }
 
     public function test_enum_can_have_fake(): void
