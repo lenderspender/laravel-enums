@@ -145,7 +145,7 @@ abstract class Enum
 
             $except = Arr::except($values, $exceptValues);
 
-            return $emptyFirst && empty($only['']) ? self::$emptyOption + $except : $except;
+            return $emptyFirst && empty($except['']) ? self::$emptyOption + $except : $except;
         }
 
         return $values;
