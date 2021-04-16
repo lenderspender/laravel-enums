@@ -129,7 +129,7 @@ abstract class Enum
 
             $only = Arr::only($values, $onlyValues);
 
-            return $emptyFirst ? self::$emptyOption + $only : $only;
+            return $emptyFirst && empty($only['']) ? self::$emptyOption + $only : $only;
         }
 
         if (count($except)) {
@@ -145,7 +145,7 @@ abstract class Enum
 
             $except = Arr::except($values, $exceptValues);
 
-            return $emptyFirst ? self::$emptyOption + $except : $except;
+            return $emptyFirst && empty($only['']) ? self::$emptyOption + $except : $except;
         }
 
         return $values;
