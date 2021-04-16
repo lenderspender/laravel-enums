@@ -222,6 +222,13 @@ class EnumTest extends TestCase
         self::assertEquals($list[42], 'NUMBER');
     }
 
+    public function test_select_values_with_empty_first_returns_a_general_option(): void
+    {
+        $list = EnumFixture::selectValues(true);
+
+        self::assertEquals($list[''], 'Select an option');
+    }
+
     public function test_enum_can_have_fake(): void
     {
         try {

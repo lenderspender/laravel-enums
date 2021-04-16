@@ -105,12 +105,12 @@ abstract class Enum
     {
         $values = [];
 
-        if ($emptyFirst) {
-            $values = [0 => ''];
-        }
-
         foreach (static::toArray() as $key => $value) {
             $values[$value] = $showValue ? '(' . $key . ') ' . self::label($value) : self::label($value);
+        }
+
+        if ($emptyFirst && empty($value[''])) {
+            $values = ['' => 'Select an option'] + $values;
         }
 
         if (count($only)) {
@@ -247,6 +247,7 @@ abstract class Enum
                 }
             }
         }
+
         // fallback: return constant name
         return static::search($typeValue);
     }
