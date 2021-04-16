@@ -38,6 +38,8 @@ abstract class Enum
      */
     protected $value;
 
+    protected static array $emptyOption = ["" => "Select an option"];
+
     /**
      * Creates a new value of some type.
      *
@@ -110,7 +112,7 @@ abstract class Enum
         }
 
         if ($emptyFirst && empty($value[''])) {
-            $values = ['' => 'Select an option'] + $values;
+            $values = self::$emptyOption + $values;
         }
 
         if (count($only)) {
@@ -124,7 +126,7 @@ abstract class Enum
                 })
                 ->toArray();
 
-            return Arr::only($values, $onlyValues);
+            return $emptyFirst ? self::$emptyOption + Arr::only($values, $onlyValues) : Arr::only($values, $onlyValues);
         }
 
         if (count($except)) {
@@ -138,7 +140,7 @@ abstract class Enum
                 })
                 ->toArray();
 
-            return Arr::except($values, $exceptValues);
+            return $emptyFirst ? self::$emptyOption + Arr::except($values, $exceptValues) : Arr::except($values, $exceptValues);
         }
 
         return $values;
