@@ -106,14 +106,15 @@ abstract class Enum
 
     public static function selectValues(bool $emptyFirst = false, array $only = [], array $except = [], bool $showValue = false)
     {
+        $allValues = [];
         $values = [];
 
         foreach (static::toArray() as $key => $value) {
-            $values[$value] = $showValue ? '(' . $key . ') ' . self::label($value) : self::label($value);
+            $allValues[$value] = $showValue ? '(' . $key . ') ' . self::label($value) : self::label($value);
         }
 
         if ($emptyFirst && empty($value[''])) {
-            $values = self::$emptyOption + $values;
+            $values = self::$emptyOption;
         }
 
         if (count($only)) {
@@ -127,9 +128,7 @@ abstract class Enum
                 })
                 ->toArray();
 
-            $only = Arr::only($values, $onlyValues);
-
-            return $emptyFirst && empty($only['']) ? self::$emptyOption + $only : $only;
+            return $values + Arr::only($allValues, $onlyValues);
         }
 
         if (count($except)) {
@@ -143,12 +142,10 @@ abstract class Enum
                 })
                 ->toArray();
 
-            $except = Arr::except($values, $exceptValues);
-
-            return $emptyFirst && empty($except['']) ? self::$emptyOption + $except : $except;
+            return $values + Arr::except($allValues, $exceptValues);
         }
 
-        return $values;
+        return $values + $allValues;
     }
 
     /**

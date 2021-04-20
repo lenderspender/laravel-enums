@@ -244,7 +244,7 @@ class EnumTest extends TestCase
             EnumFixture::BAR(),
             EnumFixture::PROBLEMATIC_NUMBER(),
             EnumFixture::PROBLEMATIC_NULL(),
-            EnumFixture::PROBLEMATIC_EMPTY_STRING() .
+            EnumFixture::PROBLEMATIC_EMPTY_STRING(),
             EnumFixture::PROBLEMATIC_BOOLEAN_FALSE(),
         ];
 
