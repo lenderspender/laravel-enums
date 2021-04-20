@@ -31,6 +31,9 @@ abstract class Enum
     protected static $cache = [];
 
     protected static $fakeValues = [];
+
+    private static array $emptyOption = ['' => 'Select an option'];
+
     /**
      * Enum value.
      *
@@ -103,14 +106,15 @@ abstract class Enum
 
     public static function selectValues(bool $emptyFirst = false, array $only = [], array $except = [], bool $showValue = false)
     {
+        $allValues = [];
         $values = [];
 
         foreach (static::toArray() as $key => $value) {
-            $values[$value] = $showValue ? '(' . $key . ') ' . self::label($value) : self::label($value);
+            $allValues[$value] = $showValue ? '(' . $key . ') ' . self::label($value) : self::label($value);
         }
 
         if ($emptyFirst && empty($value[''])) {
-            $values = ['' => 'Select an option'] + $values;
+            $values = self::$emptyOption;
         }
 
         if (count($only)) {
@@ -124,7 +128,7 @@ abstract class Enum
                 })
                 ->toArray();
 
-            return Arr::only($values, $onlyValues);
+            return $values + Arr::only($allValues, $onlyValues);
         }
 
         if (count($except)) {
@@ -138,10 +142,10 @@ abstract class Enum
                 })
                 ->toArray();
 
-            return Arr::except($values, $exceptValues);
+            return $values + Arr::except($allValues, $exceptValues);
         }
 
-        return $values;
+        return $values + $allValues;
     }
 
     /**
