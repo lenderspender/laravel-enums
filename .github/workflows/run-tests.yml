@@ -1,41 +1,40 @@
-name: run-tests
+name: Run tests
 
-on: [ push, pull_request ]
+on:
+  push:
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
+  php-tests:
+    if: "!contains(github.event.head_commit.message, 'skipci')"
+    runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: true
-      matrix:
-        os: [ ubuntu-latest ]
-        php: [8.0]
-        laravel: [ 7.*, 8.* ]
-        dependency-version: [ prefer-stable ]
-        include:
-          - laravel: 7.*
-            testbench: 5.*
-          - laravel: 8.*
-            testbench: 6.*
-
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+    name: Running tests
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, redis
+          php-version: 8.1
+          extensions: curl, mbstring, pdo, bcmath, intl
           coverage: none
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+          composer install --no-interaction --prefer-dist
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: ./vendor/bin/phpunit --printer mheap\\GithubActionsReporter\\Printer
