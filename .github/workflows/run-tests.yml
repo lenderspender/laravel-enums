@@ -10,13 +10,10 @@ jobs:
 
     strategy:
       matrix:
-        php: [ 8.1 ]
-        laravel: [ 8.*, 9.* ]
+        php: [8.1]
+        laravel: [9.*]
         include:
-          - laravel: 8.*
-            testbench: 6.*
           - laravel: 9.*
-            testbench: 7.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }}
 
@@ -44,7 +41,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer install --no-interaction --prefer-dist
 
       - name: Execute tests
