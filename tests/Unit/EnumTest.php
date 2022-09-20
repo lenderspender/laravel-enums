@@ -195,6 +195,7 @@ class EnumTest extends TestCase
      * search().
      *
      * @see https://github.com/myclabs/php-enum/issues/13
+     *
      * @dataProvider searchProvider
      */
     public function test_search($value, $expected)
@@ -350,5 +351,19 @@ class EnumTest extends TestCase
 
         self::assertTrue($nullableEnum::UNKNOWN()->equals($nullableEnum));
         self::assertSame('foo', $nullableEnum->value());
+    }
+
+    public function test_enum_from_value(): void
+    {
+        $enum = new class('one') extends Enum {
+            public const ONE = 'one';
+            public const TWO = 'two';
+        };
+
+        self::assertEquals($enum::ONE, $enum::fromValue('one'));
+        self::assertEquals($enum::TWO, $enum::fromValue('two'));
+
+        self::expectException(\UnexpectedValueException::class);
+        $enum::fromValue('three');
     }
 }
