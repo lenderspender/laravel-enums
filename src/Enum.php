@@ -288,6 +288,11 @@ abstract class Enum
         return in_array(CanBeUnknown::class, class_implements($class));
     }
 
+    public static function fromValue(string $value): self
+    {
+        return new static($value);
+    }
+
     /**
      * Compares one Enum with another.
      *
@@ -385,6 +390,6 @@ abstract class Enum
             return new static($array[$name]);
         }
 
-        throw new \BadMethodCallException("No static method or enum constant '${name}' in class " . get_called_class());
+        throw new \BadMethodCallException("No static method or enum constant '{$name}' in class " . get_called_class());
     }
 }
