@@ -22,7 +22,7 @@ class EnumTest extends TestCase
         self::assertEquals(EnumFixture::BAR(), $value->value());
 
         $value = EnumFixture::NUMBER();
-        self::assertEquals((string)EnumFixture::NUMBER(), $value->value());
+        self::assertEquals((string) EnumFixture::NUMBER(), $value->value());
     }
 
     public function test_get_key(): void
@@ -195,6 +195,7 @@ class EnumTest extends TestCase
      * search().
      *
      * @see https://github.com/myclabs/php-enum/issues/13
+     *
      * @dataProvider searchProvider
      */
     public function test_search($value, $expected)
@@ -278,7 +279,7 @@ class EnumTest extends TestCase
         $rule = EnumFixture::ruleIn();
 
         self::assertInstanceOf(In::class, $rule);
-        self::assertSame('in:"foo","bar","42","0","","","","baz"', (string)$rule);
+        self::assertSame('in:"foo","bar","42","0","","","","baz"', (string) $rule);
     }
 
     public function test_can_exclude_values_from_rule_in(): void
@@ -286,7 +287,7 @@ class EnumTest extends TestCase
         $rule = EnumFixture::ruleIn(EnumFixture::FOO());
 
         self::assertInstanceOf(In::class, $rule);
-        self::assertSame('in:"bar","42","0","","","","baz"', (string)$rule);
+        self::assertSame('in:"bar","42","0","","","","baz"', (string) $rule);
     }
 
     public function test_can_exclude_nullable_value_from_rule_in(): void
@@ -296,7 +297,7 @@ class EnumTest extends TestCase
         };
 
         $rule = $nullableEnum::ruleIn($nullableEnum::UNKNOWN());
-        self::assertSame('in:"foo"', (string)$rule);
+        self::assertSame('in:"foo"', (string) $rule);
     }
 
     public function test_enum_cannot_be_null_by_default(): void
