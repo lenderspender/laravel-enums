@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LenderSpender\LaravelEnums;
 
+use BadMethodCallException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
@@ -12,6 +13,7 @@ use Illuminate\Validation\Rules\In;
 use Mockery;
 use Mockery\MockInterface;
 use ReflectionClass;
+use UnexpectedValueException;
 
 /**
  * Shameless copy from Myclabs/php-enum repo with a few tweaks
@@ -46,7 +48,7 @@ abstract class Enum
      *
      * @param mixed $value
      *
-     * @throws \UnexpectedValueException if incompatible type is given
+     * @throws UnexpectedValueException if incompatible type is given
      */
     public function __construct($value)
     {
@@ -57,7 +59,7 @@ abstract class Enum
         }
 
         if (! $this->isValidValue($value)) {
-            throw new \UnexpectedValueException("Value '{$value}' is not part of the enum " . get_called_class());
+            throw new UnexpectedValueException("Value '{$value}' is not part of the enum " . get_called_class());
         }
 
         $this->value = $value;
@@ -192,8 +194,6 @@ abstract class Enum
 
     /**
      * Check if is valid enum value.
-     *
-     * @param $value
      */
     public static function isValidValue($value): bool
     {
@@ -206,8 +206,6 @@ abstract class Enum
 
     /**
      * Check if is valid enum key.
-     *
-     * @param $key
      */
     public static function isValidKey($key): bool
     {
@@ -218,8 +216,6 @@ abstract class Enum
 
     /**
      * Return key for value.
-     *
-     * @param $value
      *
      * @return mixed
      */
@@ -378,7 +374,7 @@ abstract class Enum
      * @param string $name
      * @param array  $arguments
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      *
      * @return static
      */
@@ -390,6 +386,6 @@ abstract class Enum
             return new static($array[$name]);
         }
 
-        throw new \BadMethodCallException("No static method or enum constant '{$name}' in class " . get_called_class());
+        throw new BadMethodCallException("No static method or enum constant '{$name}' in class " . get_called_class());
     }
 }

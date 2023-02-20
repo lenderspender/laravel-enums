@@ -38,7 +38,7 @@ class EnumTest extends TestCase
      */
     public function test_creating_enum_with_invalid_value($value): void
     {
-        self::expectException(\UnexpectedValueException::class);
+        self::expectException(UnexpectedValueException::class);
         self::expectExceptionMessage('Value \'' . $value . '\' is not part of the enum LenderSpender\LaravelEnums\Tests\Unit\EnumFixture');
 
         new EnumFixture($value);
@@ -363,7 +363,7 @@ class EnumTest extends TestCase
         self::assertEquals($enum::ONE, $enum::fromValue('one'));
         self::assertEquals($enum::TWO, $enum::fromValue('two'));
 
-        self::expectException(\UnexpectedValueException::class);
+        self::expectException(UnexpectedValueException::class);
         $enum::fromValue('three');
     }
 }
