@@ -41,6 +41,7 @@ class EnumTest extends TestCase
         self::expectException(\UnexpectedValueException::class);
         self::expectExceptionMessage('Value \'' . $value . '\' is not part of the enum LenderSpender\LaravelEnums\Tests\Unit\EnumFixture');
 
+
         new EnumFixture($value);
     }
 
