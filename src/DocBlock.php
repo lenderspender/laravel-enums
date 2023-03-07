@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LenderSpender\LaravelEnums;
 
 use Barryvdh\Reflection\DocBlock\Tag;
+use LogicException;
 
 class DocBlock extends \Barryvdh\Reflection\DocBlock
 {
@@ -20,6 +21,6 @@ class DocBlock extends \Barryvdh\Reflection\DocBlock
             return $tag;
         }
 
-        throw new \LogicException('This tag belongs to a different DocBlock object.');
+        throw new LogicException('This tag belongs to a different DocBlock object.');
     }
 }
