@@ -48,7 +48,7 @@ class EnumTest extends TestCase
     /**
      * Contains values not existing in EnumFixture.
      */
-    public function invalidValueProvider(): array
+    public static function invalidValueProvider(): array
     {
         return [
             'string' => ['test'],
@@ -167,7 +167,7 @@ class EnumTest extends TestCase
         self::assertSame($isValid, EnumFixture::isValidValue($value));
     }
 
-    public function isValidProvider(): array
+    public static function isValidProvider(): array
     {
         return [
             /*
@@ -204,7 +204,7 @@ class EnumTest extends TestCase
         self::assertSame($expected, EnumFixture::search($value));
     }
 
-    public function searchProvider(): array
+    public static function searchProvider(): array
     {
         return [
             ['foo', 'FOO'],
