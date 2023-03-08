@@ -37,4 +37,4 @@ jobs:
           composer install --no-interaction --prefer-dist
 
       - name: Execute tests
-        run: ./vendor/bin/phpunit --printer mheap\\GithubActionsReporter\\Printer
+        run: ./vendor/bin/phpunit

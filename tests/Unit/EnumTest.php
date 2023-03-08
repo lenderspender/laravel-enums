@@ -13,6 +13,49 @@ use UnexpectedValueException;
 
 class EnumTest extends TestCase
 {
+    /**
+     * Contains values not existing in EnumFixture.
+     */
+    public static function invalidValueProvider(): array
+    {
+        return [
+            'string' => ['test'],
+            'int' => [1234],
+        ];
+    }
+
+    public static function isValidProvider(): array
+    {
+        return [
+            /*
+             * Valid values
+             */
+            ['foo', true],
+            [42, true],
+            [null, true],
+            [0, true],
+            ['', true],
+            [false, true],
+            /*
+             * Invalid values
+             */
+            ['baz', false],
+        ];
+    }
+
+    public static function searchProvider(): array
+    {
+        return [
+            ['foo', 'FOO'],
+            [0, 'PROBLEMATIC_NUMBER'],
+            [null, 'PROBLEMATIC_NULL'],
+            ['', 'PROBLEMATIC_EMPTY_STRING'],
+            [false, 'PROBLEMATIC_BOOLEAN_FALSE'],
+            ['bar I do not exist', false],
+            [[], false],
+        ];
+    }
+
     public function test_get_value(): void
     {
         $value = EnumFixture::FOO();
@@ -42,17 +85,6 @@ class EnumTest extends TestCase
         self::expectExceptionMessage('Value \'' . $value . '\' is not part of the enum LenderSpender\LaravelEnums\Tests\Unit\EnumFixture');
 
         new EnumFixture($value);
-    }
-
-    /**
-     * Contains values not existing in EnumFixture.
-     */
-    public function invalidValueProvider(): array
-    {
-        return [
-            'string' => ['test'],
-            'int' => [1234],
-        ];
     }
 
     public function test_to_string(): void
@@ -166,25 +198,6 @@ class EnumTest extends TestCase
         self::assertSame($isValid, EnumFixture::isValidValue($value));
     }
 
-    public function isValidProvider(): array
-    {
-        return [
-            /*
-             * Valid values
-             */
-            ['foo', true],
-            [42, true],
-            [null, true],
-            [0, true],
-            ['', true],
-            [false, true],
-            /*
-             * Invalid values
-             */
-            ['baz', false],
-        ];
-    }
-
     public function test_is_valid_key(): void
     {
         self::assertTrue(EnumFixture::isValidKey('FOO'));
@@ -201,19 +214,6 @@ class EnumTest extends TestCase
     public function test_search($value, $expected)
     {
         self::assertSame($expected, EnumFixture::search($value));
-    }
-
-    public function searchProvider(): array
-    {
-        return [
-            ['foo', 'FOO'],
-            [0, 'PROBLEMATIC_NUMBER'],
-            [null, 'PROBLEMATIC_NULL'],
-            ['', 'PROBLEMATIC_EMPTY_STRING'],
-            [false, 'PROBLEMATIC_BOOLEAN_FALSE'],
-            ['bar I do not exist', false],
-            [[], false],
-        ];
     }
 
     public function test_select_values(): void
