@@ -284,7 +284,7 @@ abstract class Enum
         return in_array(CanBeUnknown::class, class_implements($class));
     }
 
-    public static function fromValue(string $value): self
+    public static function fromValue(string $value): static
     {
         return new static($value);
     }
